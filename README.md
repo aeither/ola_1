@@ -5,6 +5,8 @@
 olac compile vote.ola
 ```
 
+move the files to target folder
+
 ```bash
 ./olaws.sh encode -f "contract_init(u32[])" -a "[1,2,3]"
 ```
