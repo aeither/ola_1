@@ -18,11 +18,11 @@ contract Voting {
     // constructor
     fn contract_init(u32[] proposalNames_) {
        for (u32 i = 0; i < proposalNames_.length; i++) {
-        // TODO: Create a new proposal and save it to the array of proposals.
+            // TODO: Create a new proposal and save it to the array of proposals.
         // TODO: Find the bug in contract initialization.
             proposals.push(Proposal({
                 name: proposalNames_[i],
-                voteCount: i
+                voteCount: 0
             }));
             print(proposals[i].name);
         }
@@ -32,11 +32,13 @@ contract Voting {
         address msgSender = caller_address();
         Voter storage sender = voters[msgSender];
         // TODO: Check if the sender has already voted.
+        assert(!sender.voted, "already voted");
         sender.voted = true;
         sender.vote = proposal_;
         print(proposals[proposal_].name);
         assert(proposals[proposal_].name != 0, "Vote is not initialized");
         // TODO: Use the correct operator to increment voteCount.
+        proposals[proposal_].voteCount = proposals[proposal_].voteCount + 1; 
     }
 
 
@@ -46,6 +48,7 @@ contract Voting {
             if (proposals[p].voteCount > winningVoteCount) {
                 winningVoteCount = proposals[p].voteCount;
                 // TODO: Assign the correct value to winningProposal_.
+                winningProposal_ = proposals[p].name;
             }
         }
         print(winningProposal_);
@@ -55,6 +58,7 @@ contract Voting {
      fn getWinnerName() -> (u32) {
         u32 winnerP = winningProposal();
         // TODO: Ensure this is accessing the correct property for the winner's name.
+        u32 winnerName = proposals[winnerP].name;
         print(winnerName);
         return winnerName;
      }
